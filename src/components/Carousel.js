@@ -5,6 +5,8 @@ import 'styled-components/macro';
 
 import ArrowIcon from './ArrowIcon';
 import OmdbContext from '../context/Omdb';
+import { episodes as episodesImgs } from '../assets/posters';
+import breakpoint from '../assets/breakpoints';
 
 const sliderSettings = {
   lazyload: true,
@@ -48,6 +50,33 @@ const styles = css`
       width: 201px;
       height: 134px;
       object-fit: cover;
+      opacity: 0.4;
+
+      &--wrapper {
+        position: relative;
+        max-width: 201px;
+        max-height: 134px;
+
+        &:after {
+          content: '';
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          z-index: -1;
+          background-color: #000000;
+        }
+      }
+    }
+
+    &__img--wrapper.carousel__item--active {
+      .carousel__item__img {
+        opacity: 1;
+      }
+      .carousel__item__img--wrapper:after {
+        content: none;
+      }
     }
 
     &__info {
@@ -71,6 +100,10 @@ const styles = css`
     justify-content: flex-end;
     margin: 21px 23px 0 0;
 
+    @media ${breakpoint('xs')} {
+      margin-bottom: 21px;
+    }
+
     button {
       background-color: transparent;
       border: 0;
@@ -84,7 +117,15 @@ const styles = css`
 `;
 
 const Carousel = ({ handleEpisodeClick }) => {
-  const { episodes: items } = useContext(OmdbContext)
+  const {
+    episodes: items,
+    currentEpisode: {
+      imdbID,
+    },
+    series: {
+      imdbID: seriesId,
+    },
+  } = useContext(OmdbContext)
 
   const handleItemClick = (payload) => {
     if (handleEpisodeClick) handleEpisodeClick(payload)
@@ -94,12 +135,19 @@ const Carousel = ({ handleEpisodeClick }) => {
     <div className="carousel" css={styles}>
       <TinySlider className="my-tiny-slider" settings={sliderSettings}>
         {items.map((episode) => {
-          const { Episode, Title, Plot, Poster } = episode;
+          const { Episode, Title, Plot, Poster, imdbID: currentImdbId } = episode;
           const formattedPlot = Plot.substr(0, 88);
+          const activeItemClass = currentImdbId === imdbID ? 'carousel__item--active' : '';
 
           return (
-            <div className="carousel__item" key={Title} onClick={() => handleItemClick(episode)}>
-              <img src={Poster} alt={Title} className="carousel__item__img" />
+            <div
+              key={Title}
+              onClick={() => handleItemClick(episode)}
+              className="carousel__item"
+            >
+              <div className={`carousel__item__img--wrapper ${activeItemClass}`}>
+                <img src={episodesImgs[seriesId][Episode] || Poster} alt={Title} className="carousel__item__img" />
+              </div>
               <div className="carousel__item__info">
                 <span className="carousel__item__number">{Episode}</span>
                 <h3 className="carousel__item__title">{Title}</h3>

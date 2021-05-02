@@ -12,7 +12,7 @@ const styles = css`
   display: inline-flex;
   flex-direction: column;
   justify-content: flex-end;
-  height: 100vh;
+  height: 80vh;
   max-width: 100%;
   background-image: ${({ poster }) => `url(${poster})`};
   background-repeat: no-repeat;
@@ -38,6 +38,10 @@ const styles = css`
     width: 100%;
     height: 30%;
     background: linear-gradient(180.78deg, rgba(0, 0, 0, 0.0001) 30.79%, rgba(0, 0, 0, 0.29713) 87.89%);
+  }
+
+  @media ${breakpoint('sm')} {
+    height: 100vh;
   }
 
   .hero__header {

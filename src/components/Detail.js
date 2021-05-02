@@ -3,6 +3,7 @@ import { css } from 'styled-components';
 import 'styled-components/macro';
 import dayjs from 'dayjs';
 
+import { details as detailsImgs } from '../assets/posters';
 import breakpoint from '../assets/breakpoints';
 import OmdbContext from '../context/Omdb';
 import StarIcon from './StarIcon';
@@ -31,6 +32,7 @@ const styles = css`
     display: flex;
     align-items: center;
     justify-content: space-between;
+    padding: 30px 24px 32px 24px;
 
     @media ${breakpoint('sm')} {
       padding: 50px 45px 42px 35px;
@@ -54,6 +56,7 @@ const styles = css`
 
   .detail__main {
     border-top: 3px solid #97979720;
+    padding: 30px 24px 0 24px;
 
     @media ${breakpoint('sm')} {
       padding: 45px 95px 0 35px;
@@ -81,16 +84,18 @@ const Detail = () => {
       Poster,
       Episode,
     },
+    series: {
+      imdbID: seriesId,
+    },
   } = useContext(OmdbContext);
 
-  // TODO: format date
   const formattedReleaseDate = dayjs(Released).format('YYYY-MM-DD');
   const formattedRating = Math.floor(imdbRating);
 
   return (
     <section className="detail" css={styles}>
       <div className="detail__img-wrapper">
-        <img src={Poster} alt={Title} className="detail__img" />
+        <img src={detailsImgs[seriesId][Episode] || Poster} alt={Title} className="detail__img" />
       </div>
       <div className="detail__content">
         <header className="detail__header">
