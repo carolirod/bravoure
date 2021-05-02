@@ -19,7 +19,7 @@ const posters = {
 };
 
 export const episodes = {
-  tt5024912: {
+  tt5024912_season_1: {
     1: InsecureEpisode1,
     2: InsecureEpisode2,
     3: InsecureEpisode3,
@@ -28,7 +28,7 @@ export const episodes = {
 };
 
 export const details = {
-  tt5024912: {
+  tt5024912_season_1: {
     1: InsecureEpisode1Detail,
     2: InsecureEpisode2Detail,
     3: InsecureEpisode3Detail,

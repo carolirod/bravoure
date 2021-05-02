@@ -2,6 +2,7 @@ import React, { useContext } from 'react';
 import { css } from 'styled-components';
 import 'styled-components/macro';
 import dayjs from 'dayjs';
+import get from 'lodash.get';
 
 import { details as detailsImgs } from '../assets/posters';
 import breakpoint from '../assets/breakpoints';
@@ -87,6 +88,9 @@ const Detail = () => {
     series: {
       imdbID: seriesId,
     },
+    season: {
+      Season,
+    },
   } = useContext(OmdbContext);
 
   const formattedReleaseDate = dayjs(Released).format('YYYY-MM-DD');
@@ -95,7 +99,11 @@ const Detail = () => {
   return (
     <section className="detail" css={styles}>
       <div className="detail__img-wrapper">
-        <img src={detailsImgs[seriesId][Episode] || Poster} alt={Title} className="detail__img" />
+        <img
+          src={get(detailsImgs, `[${seriesId}_season_${Season}][Episode]`, Poster)}
+          alt={Title}
+          className="detail__img"
+        />
       </div>
       <div className="detail__content">
         <header className="detail__header">

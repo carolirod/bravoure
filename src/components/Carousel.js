@@ -2,6 +2,7 @@ import React, { useContext } from 'react';
 import TinySlider from 'tiny-slider-react';
 import { css } from 'styled-components';
 import 'styled-components/macro';
+import get from 'lodash.get';
 
 import ArrowIcon from './ArrowIcon';
 import OmdbContext from '../context/Omdb';
@@ -125,7 +126,10 @@ const Carousel = ({ handleEpisodeClick }) => {
     series: {
       imdbID: seriesId,
     },
-  } = useContext(OmdbContext)
+    season: {
+      Season,
+    },
+  } = useContext(OmdbContext);
 
   const handleItemClick = (payload) => {
     if (handleEpisodeClick) handleEpisodeClick(payload)
@@ -146,7 +150,11 @@ const Carousel = ({ handleEpisodeClick }) => {
               className="carousel__item"
             >
               <div className={`carousel__item__img--wrapper ${activeItemClass}`}>
-                <img src={episodesImgs[seriesId][Episode] || Poster} alt={Title} className="carousel__item__img" />
+                <img
+                  src={get(episodesImgs, `[${seriesId}_season_${Season}][Episode]`, Poster)}
+                  alt={Title}
+                  className="carousel__item__img"
+                />
               </div>
               <div className="carousel__item__info">
                 <span className="carousel__item__number">{Episode}</span>

@@ -28,7 +28,8 @@ class App extends React.Component {
   }
 
   loadSeason = async () => {
-    const { data } = await OmdbApi.getSeason(this.id, 1);
+    const seasonFromQuery = parseInt(window.location.search.split('=')[1]);
+    const { data } = await OmdbApi.getSeason(this.id, seasonFromQuery || 1);
     const { Episodes } = data;
     // console.log('response season', data)
 
